@@ -20,10 +20,8 @@ pipeline {
                     // Set target registry destination tags based on branch rules
                     if (env.BRANCH == 'dev') {
                         env.IMAGE_TAG = "${DOCKER_USER}/dev:latest"
-                    } else if (env.BRANCH == 'main') {
+                    } else (env.BRANCH == 'main') {
                         env.IMAGE_TAG = "${DOCKER_USER}/prod:latest"
-                    } else {
-                        env.IMAGE_TAG = "${DOCKER_USER}/dev:${env.BRANCH}"
                     }
                 }
                 // Build the image locally on Jenkins Controller
