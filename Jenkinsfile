@@ -70,9 +70,9 @@ pipeline {
 			export REPO_NAME="${env.BRANCH == 'main' ? 'prod' : 'dev'}"
                         export HOST_PORT="${env.BRANCH == 'main' ? '8000' : '80'}"
 
-                        export TAG="${env.BRANCH == 'main' ? 'prod' : 'dev'}"
+                        // export TAG="${env.BRANCH == 'main' ? 'prod' : 'dev'}"
                         
-                        echo "Pulling fresh updates from registry targeting: \$DOCKER_USER/\$TAG:latest"
+                        echo "Pulling fresh updates from registry targeting: \$DOCKER_USER/\$REPO_NAME:latest"
                         docker-compose pull
                         
                         echo "Bouncing containers gracefully..."
@@ -83,7 +83,7 @@ pipeline {
                         docker image prune -f
                         
                         echo "Remote deployment successfully executed!"
-                    EOF
+             EOF
                     """
                 }
             }
