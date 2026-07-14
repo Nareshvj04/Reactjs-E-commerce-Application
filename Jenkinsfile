@@ -20,8 +20,10 @@ pipeline {
                     // Set target registry destination tags based on branch rules
                     if (env.BRANCH == 'dev') {
                         env.IMAGE_TAG = "${DOCKER_USER}/dev:latest"
-                    } else (env.BRANCH == 'main') {
+                    } else if (env.BRANCH == 'main') {
                         env.IMAGE_TAG = "${DOCKER_USER}/prod:latest"
+                    } else {
+                        env.IMAGE_TAG = "${DOCKER_USER}/dev:${env.BRANCH}"
                     }
                 }
                 // Build the image locally on Jenkins Controller
@@ -34,13 +36,17 @@ pipeline {
                 // Securely log into DockerHub and push the image built in the previous stage
                 sh "echo \$DOCKER_CREDS_PSW | docker login -u \$DOCKER_CREDS_USR --password-stdin"
                 script {
-			if (env.BRANCH_NAME == 'dev') {
+
+
+            		def repoName = (env.BRANCH_NAME == 'main') ? 'prod' : 'dev'
+            		sh "docker push nareshvj04/${repoName}:latest"
+			//if (env.BRANCH_NAME == 'dev') {
                
-                		sh "docker push \$DOCKER_USER/dev:latest"
-			} else if (env.BRANCH_NAME == 'main') {
+                	//	sh "docker push \$DOCKER_USER/dev:latest"
+			//} else if (env.BRANCH_NAME == 'main') {
                 
-                		sh "docker push \$DOCKER_USER/prod:latest"
-			}
+                	//	sh "docker push \$DOCKER_USER/prod:latest"
+			//}
 			}
 				
             }
