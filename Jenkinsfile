@@ -83,7 +83,7 @@ pipeline {
                         docker image prune -f
                         
                         echo "Remote deployment successfully executed!"
-             EOF
+            	    EOF
                     """
                 }
             }
