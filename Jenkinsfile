@@ -4,7 +4,7 @@ pipeline {
     environment {
         DOCKER_CREDS      = credentials('dockerhub-creds')
         DOCKER_USER       = 'nareshvj04'
-        TARGET_SERVER_IP  = ''
+        TARGET_SERVER_IP  = '52.66.171.197'
         TARGET_SSH_USER   = 'ec2-user'                    
         SSH_KEY_ID        = 'mykey'
     }
