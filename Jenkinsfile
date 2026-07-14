@@ -36,9 +36,12 @@ pipeline {
                 // Securely log into DockerHub and push the image built in the previous stage
                 sh "echo \$DOCKER_CREDS_PSW | docker login -u \$DOCKER_CREDS_USR --password-stdin"
                 script {
-
-
-            		def repoName = (env.BRANCH_NAME == 'main') ? 'prod' : 'dev'
+			def currentBranch = env.BRANCH_NAME ?: env.GIT_BRANCH ?: 'dev'
+			if (currentBranch.contains('/')) {
+	                currentBranch = currentBranch.substring(currentBranch.lastIndexOf('/') + 1)
+        		    }
+            		def repoName = (currentBranch == 'main') ? 'prod' : 'dev'
+			echo "Determined Target Branch is: ${currentBranch}. Pushing to repository: ${repoName}"
             		sh "docker push nareshvj04/${repoName}:latest"
 			//if (env.BRANCH_NAME == 'dev') {
                
