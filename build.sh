@@ -1,9 +1,9 @@
 #!/bin/bash
-export DOCKER_USER="your-dockerhub-username"
+export DOCKER_USER="nareshvj04"
 export TAG=$(git rev-parse --short HEAD)
 
 BRANCH=$(git rev-parse --abbrev-ref HEAD)
-if [ "$BRANCH" = "master" ] || [ "$BRANCH" = "main" ]; then
+if [ "$BRANCH" = "main" ]; then
     REPO="prod"
 else
     REPO="dev"
@@ -11,5 +11,5 @@ fi
 
 echo "Building Docker image tracking tag: $TAG for $REPO repository..."
 echo "Building Docker image tracking tag: $TAG..."
-docker build -t $DOCKER_USER/$REPO:$TAG -t $DOCKER_USER/dev:latest .
+docker build -t $DOCKER_USER/$REPO:$TAG -t $DOCKER_USER/$REPO:latest .
 
