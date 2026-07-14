@@ -73,11 +73,11 @@ pipeline {
                         export TAG="${env.BRANCH == 'main' ? 'prod' : 'dev'}"
                         
                         echo "Pulling fresh updates from registry targeting: \$DOCKER_USER/\$TAG:latest"
-                        docker compose pull
+                        docker-compose pull
                         
                         echo "Bouncing containers gracefully..."
-                        docker compose down --remove-orphans
-                        docker compose up -d
+                        docker-compose down --remove-orphans
+                        docker-compose up -d
                         
                         echo "Cleaning up outdated, dangling local images from the system cache..."
                         docker image prune -f
